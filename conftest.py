@@ -4,9 +4,13 @@ from selenium.webdriver.chrome.options import Options
 
 
 def pytest_addoption(parser):
+    parser.addoption('--browser',
+                        action='store',
+                        help='select browser chrome or firefox',
+                        default='chrome')
     parser.addoption('--language',  
                         action='store', 
-                        default=None,
+                        default="ru",
                         help="Choose language: ru or en")
 
 # Запуск произвожу только в Chrome, код подрезан по сравнению с предыдущими шагами
@@ -15,12 +19,16 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="function")
 def browser(request):
+    browser = request.config.getoption('browser')
     user_language = request.config.getoption("language")
-    options = Options()
-    options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
-    print(f"\nstart Chrome browser for test on language {user_language}")
-    browser = webdriver.Chrome(options=options)
-    browser.implicitly_wait(5)
+    if browser == 'chrome':
+        options = Options()
+        options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+        browser = webdriver.Chrome(options=options)
+    elif browser == 'firefox':
+        fp = webdriver.FirefoxProfile()
+        fp.set_preference('intl.accept_languages', user_language)
+        browser = webdriver.Firefox(firefox_profile=fp)
     yield browser
-    print("\nquit browser..")
+
     browser.quit()
