@@ -5,7 +5,7 @@ from pages.login_page import LoginPage
 
 
 @pytest.mark.login_guest
-class TestLoginFromMainPage:
+class TestLoginFromMainPage(object):
     # Тестирование наличия логин ссылки пользователя класс MainPage()
     def test_guest_can_go_to_login_page(self, browser):
         link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209?promo=midsummer"
