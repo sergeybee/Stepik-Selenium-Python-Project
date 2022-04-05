@@ -14,6 +14,7 @@ class TestUserAddToBasketFromProductPage(object):
         email = str(time.time()) + "@fakemail.org"
         password = "dkeowo1414"
         page.register_new_user(email, password)
+        time.sleep(3)
         page.should_be_authorized_user()
 
     @pytest.mark.need_review
@@ -96,8 +97,8 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
-def test_guest_can_add_product_to_basket(browser, url):
-    url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+def test_guest_can_add_product_to_basket(browser):
+    url = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/coders-at-work_207/?promo=newYear2019"
     page = ProductPage(browser, url)
     page.open()
     product_page = ProductPage(browser, browser.current_url)
