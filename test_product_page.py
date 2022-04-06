@@ -35,9 +35,10 @@ class TestUserAddToBasketFromProductPage(object):
 
 
 @pytest.mark.need_review
-def test_guest_can_add_product_to_basket(browser):
+@pytest.mark.parametrize('str_number', ["0", "1", "2", "3","4","5","6", pytest.param("7", marks=pytest.mark.xfail),"8","9"])
+def test_guest_can_add_product_to_basket(browser, str_number):
     """метод для добавленя товара в корзину, проверки названия и цены товара"""
-    link = 'http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear'
+    link = f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{str_number}"
     page = ProductPage(browser, link)
     page.open()
     product_page = ProductPage(browser, browser.current_url)
